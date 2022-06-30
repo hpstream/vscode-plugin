@@ -10,16 +10,87 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscode-plugin.helloWorld"
+		"onView:taskWebView"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": [
+			{
+				"title": "自习室配置",
+				"properties": {
+					"studyArea.typeOptions": {
+						"type": "array",
+						"default": [
+							{
+								"label": "娱乐",
+								"value": "娱乐"
+							},
+							{
+								"label": "学习",
+								"value": "学习"
+							}
+						],
+						"description": "输入自习室类型"
+					}
+				}
+			}
+		],
 		"commands": [
 			{
-				"command": "vscode-plugin.helloWorld",
-				"title": "Hello World"
+				"command": "studyArea.addType",
+				"icon": "media/icon/add-task.svg",
+				"title": "增加任务类型"
+			},
+			{
+				"command": "studyArea.login",
+				"icon": "media/icon/yuque.svg",
+				"title": "登陆"
+			},
+			{
+				"command": "studyArea.addDir",
+				"icon": "media/icon/mulu.svg",
+				"title": "添加目录"
 			}
-		]
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "studyArea.login",
+					"when": "view == taskWebView",
+					"group": "navigation"
+				},
+				{
+					"command": "studyArea.addType",
+					"when": "view == taskWebView",
+					"group": "navigation"
+				},
+				{
+					"command": "studyArea.addDir",
+					"when": "view == taskWebView",
+					"group": "navigation"
+				}
+			]
+		},
+		"views": {
+			"studyArea": [
+				{
+					"id": "taskWebView",
+					"type": "webview",
+					"name": "任务面板",
+					"contextualTitle": "任务面板"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "studyArea",
+					"title": "自习室",
+					"icon": "media/xuexi.svg"
+				}
+			]
+		},
+		"viewsWelcome": []
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -41,5 +112,9 @@
 		"mocha": "^8.4.0",
 		"typescript": "^4.3.2",
 		"vscode-test": "^1.5.2"
+	},
+	"dependencies": {
+		"axios": "^0.27.2",
+		"dayjs": "^1.11.3"
 	}
 }

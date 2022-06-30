@@ -1,0 +1,123 @@
+import {AxiosResponse} from "axios";
+import {fstat, readFileSync} from "fs";
+
+import * as vscode from "vscode";
+import {savedoc} from "../service";
+import {getWorkspaceConfiguration} from "../utils/workspaceConfiguration";
+export class SidebarProvider implements vscode.WebviewViewProvider {
+  _view?: vscode.WebviewView;
+  _doc?: vscode.TextDocument;
+  public static readonly viewType = "taskWebView";
+
+  constructor(
+    private readonly _extensionUri: vscode.Uri,
+    private readonly context: vscode.ExtensionContext
+  ) {}
+
+  handleMessage(webviewView: vscode.WebviewView) {
+    // Receive message from the webview.
+
+    webviewView.webview.onDidReceiveMessage((data: any) => {
+      // 收消息
+      // console.log(data.type);
+      switch (data.type) {
+        case "finishTask":
+          let info = JSON.parse(data.value);
+          savedoc(this.context, info);
+
+          return;
+        case "delete":
+          return;
+      }
+    });
+
+    // message from the webview.
+
+    setTimeout(() => {
+      this.sendTypeOption();
+    }, 3000);
+  }
+  sendTypeOption() {
+    let value = getWorkspaceConfiguration().get("typeOptions");
+    // console.log(value);
+    this._view?.webview.postMessage({
+      type: "getTypeOption",
+      value: value,
+    });
+  }
+
+  public async resolveWebviewView(webviewView: vscode.WebviewView) {
+    this._view = webviewView;
+
+    let url = vscode.Uri.joinPath(this._extensionUri, "media", "main.html");
+    let HTMLDATA = readFileSync(url.path, "utf-8");
+
+    webviewView.webview.options = {
+      // Allow scripts in the webview
+      enableScripts: true,
+      localResourceRoots: [this._extensionUri],
+    };
+    webviewView.onDidChangeVisibility((v) => {
+      setTimeout(() => {
+        this.sendTypeOption();
+      }, 3000);
+    });
+    try {
+      webviewView.webview.html = this._getHtmlForWebview(
+        webviewView.webview,
+        HTMLDATA
+      );
+
+      this.handleMessage(webviewView);
+    } catch (error) {
+      return;
+    }
+  }
+  private _getHtmlForWebview(webview: vscode.Webview, res: string) {
+    const scriptUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "main.js")
+    );
+    const vueUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "vue.global.js")
+    );
+    const elementCssUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "index.css")
+    );
+    const elementJsUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "index.full.js")
+    );
+
+    const nonce = getNonce();
+    let data = res
+      .replace(
+        "<!-- css -->",
+        `
+        
+
+          <!-- 导入样式 -->
+          <link rel="stylesheet" href="${elementCssUri}" />
+          <!-- 导入 Vue 3 -->
+          <script src="${vueUri}"></script>
+          <!-- 导入组件库 -->
+          <script src="${elementJsUri}"></script>
+      `
+      )
+      .replace(
+        "<!-- js -->",
+        `
+        <script nonce="${nonce}" src="${scriptUri}"></script>
+    `
+      );
+    return data;
+  }
+}
+
+function getNonce() {
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
