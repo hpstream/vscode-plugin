@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:taskWebView"
+		"onView:taskWebView",
+		"onView:taskTimes"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -78,6 +79,12 @@
 					"type": "webview",
 					"name": "任务面板",
 					"contextualTitle": "任务面板"
+				},
+				{
+					"id": "taskTimes",
+					"type": "webview",
+					"name": "时长统计",
+					"contextualTitle": "时长统计"
 				}
 			]
 		},

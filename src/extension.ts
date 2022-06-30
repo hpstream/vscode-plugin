@@ -1,13 +1,8 @@
+import {ResultSidebarProvider} from "./webview/ResultSidebarProvider";
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import {
-  QuickInputButton,
-  QuickInputButtons,
-  QuickPickItem,
-  Uri,
-  window,
-} from "vscode";
+
 import {addDirCommand} from "./command/addDir";
 import {addTypesCommand} from "./command/addType";
 import {loginCommand} from "./command/login";
@@ -23,6 +18,18 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider(
       SidebarProvider.viewType,
       sidebarProvider
+    )
+  );
+
+  const resultSidebarProvider = new ResultSidebarProvider(
+    context.extensionUri,
+    context
+  );
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      ResultSidebarProvider.viewType,
+      resultSidebarProvider
     )
   );
 
