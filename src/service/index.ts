@@ -62,13 +62,17 @@ export async function savedoc(
   let repo_id = context.globalState.get("dir") as string;
   if (data) {
     let title = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    params.title = title;
+    params.costTime = dayjs(params.endTime)
+      .diff(params.starTime, "hour", true)
+      .toFixed(2); // 7
     return axios(
       Object.assign(data, {
         method: "post",
         url: `/repos/${repo_id}/docs`,
         params: {
-          Key: JSON.stringify(params),
-          title: title,
+          description: "11111",
+          title: JSON.stringify(params),
           body: JSON.stringify(params),
         },
       })
@@ -77,6 +81,49 @@ export async function savedoc(
         console.log(res);
         vscode.window.showInformationMessage("恭喜完成一个任务");
         return res;
+      })
+      .catch((e) => {
+        // console.log(e)
+        let msg = e.response
+          ? e.response.data
+          : {
+              status: 401,
+              message: "domain不合法",
+            };
+
+        vscode.window.showInformationMessage(msg.message);
+      });
+  }
+}
+
+export async function getList(context: vscode.ExtensionContext) {
+  let data = await isValidate(context);
+  let repo_id = context.globalState.get("dir") as string;
+  if (data) {
+    return axios(
+      Object.assign(data, {
+        method: "get",
+        url: `/repos/${repo_id}/docs`,
+        params: {},
+      })
+    )
+      .then((res) => {
+        let datas = res.data.data;
+        let map: any = {};
+        datas.forEach((data: any) => {
+          let pdata = JSON.parse(data.title);
+          if (map[pdata.type] === undefined) {
+            map[pdata.type] = 0;
+          }
+          map[pdata.type] += pdata.costTime;
+        });
+
+        let category = Object.keys(map);
+        let data = Object.values(map);
+        return {
+          category,
+          data,
+        };
       })
       .catch((e) => {
         // console.log(e)

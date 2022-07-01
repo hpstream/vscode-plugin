@@ -2,7 +2,7 @@ import {AxiosResponse} from "axios";
 import {fstat, readFileSync} from "fs";
 
 import * as vscode from "vscode";
-import {savedoc} from "../service";
+import {getList, savedoc} from "../service";
 import {getWorkspaceConfiguration} from "../utils/workspaceConfiguration";
 export class ResultSidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -14,13 +14,15 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
     private readonly context: vscode.ExtensionContext
   ) {}
 
-  async sendData() {
+  async sendData(): Promise<void> {
     // console.log(value);
+    let res: any = await getList(this.context);
+
     this._view?.webview.postMessage({
       type: "data",
       value: {
-        category: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        data: [10, 52, 200, 334, 390, 330, 220],
+        category: res.category,
+        data: res.data,
       },
     });
   }
@@ -46,9 +48,11 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
         webviewView.webview,
         HTMLDATA
       );
-      setTimeout(() => {
-        this.sendData();
-      }, 3000);
+      webviewView.onDidChangeVisibility((v) => {
+        setTimeout(() => {
+          this.sendData();
+        }, 3000);
+      });
     } catch (error) {
       return;
     }
