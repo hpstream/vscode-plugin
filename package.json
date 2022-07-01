@@ -4,6 +4,7 @@
 	"description": "工作虚拟自习室",
 	"publisher": "hpstream",
 	"version": "0.0.2",
+	"icon": "media/icon/wodexuexi.svg",
 	"engines": {
 		"vscode": "^1.68.0"
 	},
