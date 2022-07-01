@@ -59,8 +59,8 @@
             this.typeOption = message.value;
             break;
           case 'info':
-            this.taskData = message.value.taskData;
-            this.taskFlag = message.value.taskFlag
+            this.taskData = message.value.taskData || {};
+            this.taskFlag = message.value.taskFlag || false
             break;
 
           default:

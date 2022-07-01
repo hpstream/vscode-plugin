@@ -22,17 +22,22 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       // console.log(data.type);
       switch (data.type) {
         case "finishTask":
-          let info: any = this.context.globalState.get("info");
+          let info: any = this.context.globalState.get("infos");
           if (info) {
             info = info.taskData;
             info.endTime = new Date().getTime();
             savedoc(this.context, info);
-            this.context.globalState.update("info", null);
           }
+          this.context.globalState.update("infos", "");
+          info = this.context.globalState.get("infos");
+
+          console.log(info);
+
+          return;
 
         case "addTask":
           let infos = JSON.parse(data.value);
-          this.context.globalState.update("info", infos);
+          this.context.globalState.update("infos", infos);
 
           return;
         case "delete":
@@ -44,7 +49,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     setTimeout(() => {
       this.sendTypeOption();
-    }, 3000);
+    }, 2000);
   }
   sendTypeOption() {
     let value = getWorkspaceConfiguration().get("typeOptions");
@@ -53,7 +58,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       type: "getTypeOption",
       value: value,
     });
-    let res = this.context.globalState.get("info");
+    let res = this.context.globalState.get("infos");
     if (res) {
       this._view?.webview.postMessage({
         type: "info",
@@ -74,9 +79,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     };
     webviewView.onDidChangeVisibility((v) => {
-      setTimeout(() => {
-        this.sendTypeOption();
-      }, 3000);
+      this.sendTypeOption();
     });
     try {
       webviewView.webview.html = this._getHtmlForWebview(
