@@ -58,6 +58,10 @@
           case 'getTypeOption':
             this.typeOption = message.value;
             break;
+          case 'info':
+            this.taskData = message.value.taskData;
+            this.taskFlag = message.value.taskFlag
+            break;
 
           default:
             break;
@@ -72,7 +76,14 @@
           if (valid) {
             this.taskFlag = true;
             this.taskData.starTime = new Date().getTime()
-            console.log('submit!')
+            // vscode.postMessage({ type: 'taskFlag', value: JSON.stringify(this.taskData) });
+            // console.log('submit!')
+            vscode.postMessage({
+              type: 'addTask', value: JSON.stringify({
+                taskFlag: this.taskFlag,
+                taskData: this.taskData
+              })
+            });
           } else {
             console.log('error submit!', fields)
           }

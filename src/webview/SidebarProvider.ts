@@ -22,8 +22,17 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       // console.log(data.type);
       switch (data.type) {
         case "finishTask":
-          let info = JSON.parse(data.value);
-          savedoc(this.context, info);
+          let info: any = this.context.globalState.get("info");
+          if (info) {
+            info = info.taskData;
+            info.endTime = new Date().getTime();
+            savedoc(this.context, info);
+            this.context.globalState.update("info", null);
+          }
+
+        case "addTask":
+          let infos = JSON.parse(data.value);
+          this.context.globalState.update("info", infos);
 
           return;
         case "delete":
@@ -44,6 +53,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       type: "getTypeOption",
       value: value,
     });
+    let res = this.context.globalState.get("info");
+    if (res) {
+      this._view?.webview.postMessage({
+        type: "info",
+        value: res,
+      });
+    }
   }
 
   public async resolveWebviewView(webviewView: vscode.WebviewView) {
