@@ -1,6 +1,6 @@
 {
-	"name": "vscode-plugin",
-	"displayName": "vscode-plugin",
+	"name": "study-area",
+	"displayName": "studyArea",
 	"description": "工作虚拟自习室",
 	"version": "0.0.1",
 	"engines": {
