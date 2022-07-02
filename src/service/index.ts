@@ -109,20 +109,32 @@ export async function getList(context: vscode.ExtensionContext) {
     )
       .then((res) => {
         let datas = res.data.data;
+
+        let weekStar = dayjs().startOf("week");
         let map: any = {};
+        let curWeekMap: any = {};
+
         datas.forEach((data: any) => {
           let pdata = JSON.parse(data.title);
+          if (pdata.starTime > weekStar) {
+            if (curWeekMap[pdata.type] === undefined) {
+              curWeekMap[pdata.type] = 0;
+            }
+            curWeekMap[pdata.type] += Number(pdata.costTime);
+          }
           if (map[pdata.type] === undefined) {
             map[pdata.type] = 0;
           }
-          map[pdata.type] += pdata.costTime;
+          map[pdata.type] += Number(pdata.costTime);
         });
 
         let category = Object.keys(map);
         let data = Object.values(map);
+        let ccategory = Object.keys(curWeekMap);
+        let cdata = Object.values(curWeekMap);
         return {
-          category,
-          data,
+          curData: {category: ccategory, data: cdata},
+          allData: {category, data},
         };
       })
       .catch((e) => {

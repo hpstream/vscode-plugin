@@ -49,7 +49,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     setTimeout(() => {
       this.sendTypeOption();
-    }, 2000);
+    }, 3000);
   }
   sendTypeOption() {
     let value = getWorkspaceConfiguration().get("typeOptions");

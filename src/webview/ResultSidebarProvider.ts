@@ -20,10 +20,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
 
     this._view?.webview.postMessage({
       type: "data",
-      value: {
-        category: res.category,
-        data: res.data,
-      },
+      value: res,
     });
   }
 
@@ -48,6 +45,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
         webviewView.webview,
         HTMLDATA
       );
+      this.sendData();
       webviewView.onDidChangeVisibility((v) => {
         setTimeout(() => {
           this.sendData();
