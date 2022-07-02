@@ -110,7 +110,8 @@ export async function getList(context: vscode.ExtensionContext) {
       .then((res) => {
         let datas = res.data.data;
 
-        let weekStar = dayjs().startOf("week");
+        let weekStar = dayjs().startOf("week").valueOf();
+        // weekStar = weekStar + 1000 * 60 * 60 * 24 * 7;
         let map: any = {};
         let curWeekMap: any = {};
 
