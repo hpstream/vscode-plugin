@@ -71,7 +71,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
 
     let url = vscode.Uri.joinPath(this._extensionUri, "media", "main.html");
-    let HTMLDATA = readFileSync(url.path, "utf-8");
+    // let HTMLDATA = readFileSync(url.path, "utf-8");
+    let HTMLDATA = readFileSync(url.fsPath, "utf-8");
 
     webviewView.webview.options = {
       // Allow scripts in the webview

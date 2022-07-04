@@ -32,7 +32,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
       "result",
       "main.html"
     );
-    let HTMLDATA = readFileSync(url.path, "utf-8");
+    let HTMLDATA = readFileSync(url.fsPath, "utf-8");
 
     webviewView.webview.options = {
       // Allow scripts in the webview
