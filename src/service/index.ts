@@ -109,8 +109,8 @@ export async function getList(context: vscode.ExtensionContext) {
     )
       .then((res) => {
         let datas = res.data.data;
-
-        let weekStar = dayjs().startOf("week").valueOf();
+        // 按照周一开始算
+        let weekStar = dayjs().startOf("week").valueOf() + 1000 * 60 * 60 * 24;
         // weekStar = weekStar + 1000 * 60 * 60 * 24 * 7;
         let map: any = {};
         let curWeekMap: any = {};
@@ -130,9 +130,9 @@ export async function getList(context: vscode.ExtensionContext) {
         });
 
         let category = Object.keys(map);
-        let data = Object.values(map);
+        let data = Object.values(map).map((row: any) => row.toFixed(2));
         let ccategory = Object.keys(curWeekMap);
-        let cdata = Object.values(curWeekMap);
+        let cdata = Object.values(curWeekMap).map((row: any) => row.toFixed(2));
         return {
           curData: {category: ccategory, data: cdata},
           allData: {category, data},
