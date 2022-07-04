@@ -13,7 +13,7 @@ export async function addTypesCommand(
     ignoreFocusOut: true,
   });
   let value = getWorkspaceConfiguration().get<any[]>("typeOptions") || [];
-  if (value) {
+  if (res) {
     await getWorkspaceConfiguration().update(
       "typeOptions",
       [...value, {label: res, value: res}],

@@ -7,6 +7,7 @@ import {addDirCommand} from "./command/addDir";
 import {addTypesCommand} from "./command/addType";
 import {loginCommand} from "./command/login";
 import {SidebarProvider} from "./webview/SidebarProvider";
+import {zfloginCommand} from "./command/zflogin";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -39,6 +40,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.commands.registerCommand("studyArea.login", async (ele) => {
     loginCommand(context);
+  });
+
+  vscode.commands.registerCommand("studyArea.zflogin", async (ele) => {
+    zfloginCommand(context);
   });
 
   vscode.commands.registerCommand("studyArea.addDir", async (ele) => {

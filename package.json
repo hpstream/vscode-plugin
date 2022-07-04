@@ -40,6 +40,14 @@
 		],
 		"commands": [
 			{
+				"command": "studyArea.zflogin",
+				"title": "登录",
+				"icon": {
+					"light": "media/light/login.svg",
+					"dark": "media/dark/login.svg"
+				}
+			},
+			{
 				"command": "studyArea.addType",
 				"icon": "media/icon/add-task.svg",
 				"title": "增加任务类型"
@@ -58,7 +66,7 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "studyArea.login",
+					"command": "studyArea.zflogin",
 					"when": "view == taskWebView",
 					"group": "navigation"
 				},
@@ -69,6 +77,11 @@
 				},
 				{
 					"command": "studyArea.addDir",
+					"when": "view == taskWebView",
+					"group": "navigation"
+				},
+				{
+					"command": "studyArea.login",
 					"when": "view == taskWebView",
 					"group": "navigation"
 				}
