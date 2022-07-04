@@ -1,7 +1,7 @@
 {
 	"name": "study-area",
 	"displayName": "studyArea",
-	"description": "工作虚拟自习室",
+	"description": "在线虚拟自习室，让前端宝宝们共同学习，一起进步！！！",
 	"publisher": "hpstream",
 	"version": "0.0.11",
 	"icon": "media/icon/wodexuexi.png",
@@ -107,7 +107,7 @@
 			"activitybar": [
 				{
 					"id": "studyArea",
-					"title": "自习室",
+					"title": "在线虚拟自习室",
 					"icon": "media/xuexi.svg"
 				}
 			]

@@ -43,7 +43,7 @@ export async function zfloginCommand(context: vscode.ExtensionContext) {
       vscode.window.showInformationMessage(`恭喜你登录成功`);
       vscode.window
         .showWarningMessage(
-          `珠峰培训-十年专注前端培训，有口皆碑的前端培训机构`,
+          `珠峰培训-十二年专注前端培训，有口皆碑的前端培训机构`,
           ButtonType.know,
           ButtonType.close
         )
