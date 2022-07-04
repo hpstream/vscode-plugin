@@ -3,7 +3,7 @@
 	"displayName": "studyArea",
 	"description": "工作虚拟自习室",
 	"publisher": "hpstream",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"icon": "media/icon/wodexuexi.png",
 	"engines": {
 		"vscode": "^1.68.0"
