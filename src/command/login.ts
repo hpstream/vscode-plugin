@@ -24,8 +24,13 @@ export async function loginCommand(context: vscode.ExtensionContext) {
     placeHolder: "请输入语雀token",
     ignoreFocusOut: true,
   });
-  context.globalState.update("token", res);
-  vscode.window.showInformationMessage(
-    "您已通过语雀的授权，可以一键保存了,请关联存储目录"
-  );
+
+  if (res) {
+    context.globalState.update("token", res);
+    vscode.window.showInformationMessage(
+      "您已通过语雀的授权，可以一键保存了,请关联存储目录"
+    );
+  } else {
+    vscode.window.showWarningMessage("输入不能为空");
+  }
 }

@@ -14,7 +14,7 @@ export async function isValidate(context: vscode.ExtensionContext) {
         if (result === "去了解") {
           vscode.env.openExternal(
             vscode.Uri.parse(
-              " https://www.yuque.com/yuque/developer/doc#684fb2c5"
+              "https://www.yuque.com/yuque/developer/doc#684fb2c5"
             )
           );
         }

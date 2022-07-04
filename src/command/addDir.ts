@@ -7,6 +7,10 @@ export async function addDirCommand(context: vscode.ExtensionContext) {
     placeHolder: "例如：tegbr4/izuna1",
     ignoreFocusOut: true,
   });
-  context.globalState.update("dir", res);
-  vscode.window.showInformationMessage("目录保存成功");
+  if (res) {
+    context.globalState.update("dir", res);
+    vscode.window.showInformationMessage("目录保存成功");
+  } else {
+    vscode.window.showWarningMessage("输入不能为空");
+  }
 }
