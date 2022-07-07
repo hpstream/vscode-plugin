@@ -15,7 +15,9 @@ export async function zfloginCommand(context: vscode.ExtensionContext) {
       createIfNone: true,
     }
   );
-
+  // {
+  // id: 18394192.
+  // label: "hpstream"}
   if (!account) {
     vscode.window.showWarningMessage("请检查github账户权限");
     return;
@@ -58,6 +60,7 @@ export async function zfloginCommand(context: vscode.ExtensionContext) {
   }
 
   await context.globalState.update("isLogin", true);
+  await context.globalState.update("userid", account.id);
 
   return;
 }

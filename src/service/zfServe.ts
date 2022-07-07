@@ -1,8 +1,8 @@
 import axios from "axios";
 import {authentication, window} from "vscode";
-const baseURL = "http://daily.zhufengpeixun.com";
+// const baseURL = "http://daily.zhufengpeixun.com";
 // const baseURL = "http://dailytest.zhufengpeixun.com";
-// const baseURL = "http://127.0.0.1:3021";
+const baseURL = "http://127.0.0.1:7001/";
 
 export const instance = axios.create({
   baseURL,

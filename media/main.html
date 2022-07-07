@@ -31,7 +31,7 @@
       </el-form-item>
       <el-form-item label="任务类型" prop="type">
         <el-select v-model="taskData.type" placeholder="请输入任务类型">
-          <el-option :label="item.label" :value="item.value" v-for="(item,i) of typeOption" :key="i" />
+          <el-option :label="item.label" :value="item.id" v-for="(item,i) of typeOption" :key="i" />
         </el-select>
       </el-form-item>
 

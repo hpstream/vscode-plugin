@@ -3,6 +3,7 @@ import {fstat, readFileSync} from "fs";
 
 import * as vscode from "vscode";
 import {savedoc} from "../service";
+import {listTaskType} from "../service/typeServe";
 import {getWorkspaceConfiguration} from "../utils/workspaceConfiguration";
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -51,18 +52,17 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       this.sendTypeOption();
     }, 3000);
   }
-  sendTypeOption() {
-    let value = getWorkspaceConfiguration().get("typeOptions");
-    // console.log(value);
-    this._view?.webview.postMessage({
-      type: "getTypeOption",
-      value: value,
-    });
-    let res = this.context.globalState.get("infos");
+  async sendTypeOption() {
+    let isLogin = this.context.globalState.get("isLogin");
+    if (!isLogin) {
+      vscode.window.showWarningMessage("请先登录");
+    }
+    let userid = this.context.globalState.get("userid");
+    let res = await listTaskType({userid});
     if (res) {
       this._view?.webview.postMessage({
-        type: "info",
-        value: res,
+        type: "getTypeOption",
+        value: res.data,
       });
     }
   }
