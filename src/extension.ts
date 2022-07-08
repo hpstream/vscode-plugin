@@ -8,6 +8,7 @@ import {addTypesCommand} from "./command/addType";
 import {loginCommand} from "./command/login";
 import {SidebarProvider} from "./webview/SidebarProvider";
 import {zfloginCommand} from "./command/zflogin";
+import {onlineCount} from "./service/typeServe";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -38,17 +39,35 @@ export function activate(context: vscode.ExtensionContext) {
     addTypesCommand(context, sidebarProvider);
   });
 
-  // vscode.commands.registerCommand("studyArea.login", async (ele) => {
-  //   loginCommand(context);
-  // });
+  vscode.commands.registerCommand("studyArea.zflogin", async (ele) => {
+    zfloginCommand(context);
+  });
 
-  // vscode.commands.registerCommand("studyArea.zflogin", async (ele) => {
-  //   zfloginCommand(context);
-  // });
+  let myStatusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Left,
+    100
+  );
+  const myCommandId = "onlineCount";
+  let timer: any = null;
+  vscode.commands.registerCommand("onlineCount", () => {
+    updateStatusBarItem();
+  });
+  updateStatusBarItem();
+  myStatusBarItem.command = myCommandId;
 
-  // vscode.commands.registerCommand("studyArea.addDir", async (ele) => {
-  //   addDirCommand(context);
-  // });
+  async function updateStatusBarItem() {
+    clearInterval(timer);
+    onlineCountAPI();
+    setInterval(() => {
+      onlineCountAPI();
+    }, 60 * 1000);
+  }
+
+  async function onlineCountAPI() {
+    let res = await onlineCount({});
+    myStatusBarItem.text = `珠峰自习室在线人数：${res.data.list.length}`;
+    myStatusBarItem.show();
+  }
 }
 
 // this method is called when your extension is deactivated

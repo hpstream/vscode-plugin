@@ -1,12 +1,13 @@
 import axios from "axios";
 import {authentication, window} from "vscode";
 // const baseURL = "http://daily.zhufengpeixun.com";
-// const baseURL = "http://dailytest.zhufengpeixun.com";
-const baseURL = "http://127.0.0.1:7001/";
+const baseURL = "http://study.zhufengpeixun.com/";
+// const baseURL = "http://127.0.0.1:7001/";
 
 export const instance = axios.create({
   baseURL,
 });
+console.log(instance);
 
 instance.interceptors.request.use((value) => {
   console.log("请求参数", value);

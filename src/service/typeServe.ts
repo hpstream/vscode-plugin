@@ -27,3 +27,7 @@ export async function taskover<T>(parmas: T) {
 export async function taskList<T>(parmas: T) {
   return await instance.post(`/task/list`, parmas);
 }
+
+export async function onlineCount<T>(parmas: T) {
+  return await instance.post(`/task/onlineCount`, parmas);
+}

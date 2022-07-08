@@ -33,11 +33,12 @@ export async function zfloginCommand(context: vscode.ExtensionContext) {
   });
 
   if (!data) return;
+  console.log(instance);
   try {
     const res: {
       isStudent: boolean;
     } = await instance.post(`/github/searchStudent`, {data});
-    //
+
     console.log(res.isStudent);
     if (res.isStudent) {
       vscode.window.showInformationMessage(`恭喜你登录成功`);
