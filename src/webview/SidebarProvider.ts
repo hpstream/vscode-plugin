@@ -3,7 +3,7 @@ import {fstat, readFileSync} from "fs";
 
 import * as vscode from "vscode";
 import {savedoc} from "../service";
-import {listTaskType} from "../service/typeServe";
+import {listTaskType, taskover, taskstar} from "../service/typeServe";
 import {getWorkspaceConfiguration} from "../utils/workspaceConfiguration";
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -18,26 +18,36 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   handleMessage(webviewView: vscode.WebviewView) {
     // Receive message from the webview.
 
-    webviewView.webview.onDidReceiveMessage((data: any) => {
+    webviewView.webview.onDidReceiveMessage(async (data: any) => {
       // 收消息
       // console.log(data.type);
+      let isLogin = this.context.globalState.get("isLogin");
+      if (!isLogin) {
+        vscode.window.showWarningMessage("请先登录");
+        return;
+      }
+      let userid = this.context.globalState.get("userid");
       switch (data.type) {
         case "finishTask":
-          let info: any = this.context.globalState.get("infos");
-          if (info) {
-            info = info.taskData;
-            info.endTime = new Date().getTime();
-            savedoc(this.context, info);
-          }
+          let TASKID: any = this.context.globalState.get("TASKID");
+          let res1 = await taskover({
+            id: TASKID,
+            userid,
+          });
+          console.log(res1);
+          this.context.globalState.update("TASKID", "");
           this.context.globalState.update("infos", "");
-          info = this.context.globalState.get("infos");
-
-          console.log(info);
-
           return;
 
         case "addTask":
           let infos = JSON.parse(data.value);
+
+          let res = await taskstar({
+            ...infos.taskData,
+            userid,
+          });
+
+          this.context.globalState.update("TASKID", res.data.id);
           this.context.globalState.update("infos", infos);
 
           return;
@@ -56,6 +66,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     let isLogin = this.context.globalState.get("isLogin");
     if (!isLogin) {
       vscode.window.showWarningMessage("请先登录");
+      return;
     }
     let userid = this.context.globalState.get("userid");
     let res = await listTaskType({userid});
@@ -63,6 +74,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       this._view?.webview.postMessage({
         type: "getTypeOption",
         value: res.data,
+      });
+    }
+
+    let value = this.context.globalState.get("infos");
+    if (value) {
+      this._view?.webview.postMessage({
+        type: "info",
+        value,
       });
     }
   }

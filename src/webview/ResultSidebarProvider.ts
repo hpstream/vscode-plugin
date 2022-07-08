@@ -1,8 +1,10 @@
 import {AxiosResponse} from "axios";
+import dayjs = require("dayjs");
 import {fstat, readFileSync} from "fs";
 
 import * as vscode from "vscode";
 import {getList, savedoc} from "../service";
+import {taskList, taskMy} from "../service/typeServe";
 import {getWorkspaceConfiguration} from "../utils/workspaceConfiguration";
 export class ResultSidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -16,11 +18,58 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
 
   async sendData(): Promise<void> {
     // console.log(value);
-    let res: any = await getList(this.context);
+    let isLogin = this.context.globalState.get("isLogin");
+    if (!isLogin) {
+      vscode.window.showWarningMessage("请先登录");
+      return;
+    }
+    let userid = this.context.globalState.get("userid");
+
+    let starTime: any = dayjs().startOf("week").add(1, "day");
+    let endTime = starTime.add(1, "week").format("YYYY-MM-DD HH:mm:ss");
+    starTime = starTime.format("YYYY-MM-DD HH:mm:ss");
+    let time = getWorkspaceConfiguration().get<{
+      starTime: string;
+      endTime: string;
+    }>("times") || {
+      starTime,
+      endTime,
+    };
+
+    let resMydata: any = await taskMy({
+      userid,
+      starTime: time.starTime ,
+      endTime: time.endTime,
+    });
+    let mydata: any = {
+      category: [],
+      data: [],
+    };
+    resMydata.data.forEach((row: any) => {
+      mydata.category.push(row.label);
+      mydata.data.push(row.costTime);
+    });
+
+    let resAllData: any = await taskList({});
+    let allData: any = {
+      category: [],
+      data: [],
+    };
+
+    resAllData.data.forEach((row: any) => {
+      allData.category.push(row.name);
+      allData.data.push(row.costTime);
+    });
 
     this._view?.webview.postMessage({
       type: "data",
-      value: res,
+      value: {
+        mytitle: `${dayjs(time.starTime).format("YYYY-MM-DD")}~${dayjs(
+          time.endTime
+        ).format("YYYY-MM-DD")}`,
+        mydata,
+        allData,
+      },
     });
   }
 

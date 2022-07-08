@@ -8,6 +8,9 @@
 
 ```json
 {
-  "studyArea.typeOptions":[{"label":"工作","value":"工作"}]
+  "studyArea.times":{
+    "starTime":"2022-07-00 00:00:00",
+    "endTime":"2022-07-00 00:00:00"
+  }
 }
 ```

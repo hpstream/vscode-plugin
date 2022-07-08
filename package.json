@@ -74,16 +74,6 @@
 					"command": "studyArea.addType",
 					"when": "view == taskWebView",
 					"group": "navigation"
-				},
-				{
-					"command": "studyArea.addDir",
-					"when": "view == taskWebView",
-					"group": "navigation"
-				},
-				{
-					"command": "studyArea.login",
-					"when": "view == taskWebView",
-					"group": "navigation"
 				}
 			]
 		},

@@ -38,17 +38,17 @@ export function activate(context: vscode.ExtensionContext) {
     addTypesCommand(context, sidebarProvider);
   });
 
-  vscode.commands.registerCommand("studyArea.login", async (ele) => {
-    loginCommand(context);
-  });
+  // vscode.commands.registerCommand("studyArea.login", async (ele) => {
+  //   loginCommand(context);
+  // });
 
-  vscode.commands.registerCommand("studyArea.zflogin", async (ele) => {
-    zfloginCommand(context);
-  });
+  // vscode.commands.registerCommand("studyArea.zflogin", async (ele) => {
+  //   zfloginCommand(context);
+  // });
 
-  vscode.commands.registerCommand("studyArea.addDir", async (ele) => {
-    addDirCommand(context);
-  });
+  // vscode.commands.registerCommand("studyArea.addDir", async (ele) => {
+  //   addDirCommand(context);
+  // });
 }
 
 // this method is called when your extension is deactivated
