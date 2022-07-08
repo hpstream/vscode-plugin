@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import {addTaskType} from "../service/typeServe";
+import {addTaskType, listTaskType} from "../service/typeServe";
 import {SidebarProvider} from "../webview/SidebarProvider";
 export async function addTypesCommand(
   context: vscode.ExtensionContext,
@@ -20,6 +20,13 @@ export async function addTypesCommand(
 
   if (label) {
     let userid = context.globalState.get("userid");
+    let listTask = await listTaskType({userid});
+
+    let flag = listTask.data.some((row: any) => row.label == label);
+    if (flag) {
+      vscode.window.showWarningMessage("不可以添加重复的任务类型");
+      return;
+    }
     try {
       let res: any = await addTaskType({
         userid,
