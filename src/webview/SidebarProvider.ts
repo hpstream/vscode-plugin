@@ -99,7 +99,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     };
     webviewView.onDidChangeVisibility((v) => {
-      this.sendTypeOption();
+      setTimeout(() => {
+        this.sendTypeOption();
+      }, 3000);
     });
     try {
       webviewView.webview.html = this._getHtmlForWebview(
