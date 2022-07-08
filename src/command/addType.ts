@@ -8,6 +8,7 @@ export async function addTypesCommand(
   let isLogin = context.globalState.get("isLogin");
   if (!isLogin) {
     vscode.window.showWarningMessage("请先登录");
+    return;
   }
   let label = await vscode.window.showInputBox({
     prompt: "请输入任务类型",

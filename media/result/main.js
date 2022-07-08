@@ -70,7 +70,7 @@
       // 绘制图表
       let option = {
         title: {
-          text: "人员学习时长统计(h)",
+          text: "专注学习时长(分钟)",
         },
         grid: {
           left: "0%",

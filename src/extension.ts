@@ -65,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   async function onlineCountAPI() {
     let res = await onlineCount({});
-    myStatusBarItem.text = `珠峰自习室在线人数：${res.data.list.length}`;
+    myStatusBarItem.text = `前端自习室在线人数：${res.data.list.length}`;
     myStatusBarItem.show();
   }
 }

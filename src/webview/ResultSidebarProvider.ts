@@ -38,7 +38,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
 
     let resMydata: any = await taskMy({
       userid,
-      starTime: time.starTime ,
+      starTime: time.starTime,
       endTime: time.endTime,
     });
     let mydata: any = {
@@ -66,7 +66,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
       value: {
         mytitle: `${dayjs(time.starTime).format("YYYY-MM-DD")}~${dayjs(
           time.endTime
-        ).format("YYYY-MM-DD")}`,
+        ).format("MM-DD")}(分钟)`,
         mydata,
         allData,
       },
