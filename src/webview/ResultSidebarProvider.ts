@@ -64,7 +64,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
     this._view?.webview.postMessage({
       type: "data",
       value: {
-        mytitle: `${dayjs(time.starTime).format("YYYY-MM-DD")}~${dayjs(
+        mytitle: `${dayjs(time.starTime).format("MM-DD")}~${dayjs(
           time.endTime
         ).format("MM-DD")}(分钟)`,
         mydata,
@@ -98,7 +98,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
       webviewView.onDidChangeVisibility((v) => {
         setTimeout(() => {
           this.sendData();
-        }, 3000);
+        }, 1000);
       });
     } catch (error) {
       return;

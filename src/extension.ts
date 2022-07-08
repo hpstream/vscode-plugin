@@ -13,16 +13,6 @@ import {onlineCount} from "./service/typeServe";
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  const sidebarProvider = new SidebarProvider(context.extensionUri, context);
-  console.log(SidebarProvider.viewType);
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(
-      SidebarProvider.viewType,
-      sidebarProvider
-    )
-  );
-
   const resultSidebarProvider = new ResultSidebarProvider(
     context.extensionUri,
     context
@@ -32,6 +22,19 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider(
       ResultSidebarProvider.viewType,
       resultSidebarProvider
+    )
+  );
+  const sidebarProvider = new SidebarProvider(
+    context.extensionUri,
+    context,
+    () => resultSidebarProvider.sendData()
+  );
+  console.log(SidebarProvider.viewType);
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      SidebarProvider.viewType,
+      sidebarProvider
     )
   );
 

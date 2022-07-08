@@ -12,7 +12,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
-    private readonly context: vscode.ExtensionContext
+    private readonly context: vscode.ExtensionContext,
+    private readonly callback: () => void
   ) {}
 
   handleMessage(webviewView: vscode.WebviewView) {
@@ -34,9 +35,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             id: TASKID,
             userid,
           });
-          console.log(res1);
           this.context.globalState.update("TASKID", "");
           this.context.globalState.update("infos", "");
+          this.callback();
           return;
 
         case "addTask":
@@ -101,7 +102,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.onDidChangeVisibility((v) => {
       setTimeout(() => {
         this.sendTypeOption();
-      }, 3000);
+      }, 500);
     });
     try {
       webviewView.webview.html = this._getHtmlForWebview(
