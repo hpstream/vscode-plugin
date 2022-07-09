@@ -3,7 +3,7 @@
 	"displayName": "studyArea",
 	"description": "前端自习室，让前端宝宝们共同学习，一起进步！！！",
 	"publisher": "hpstream",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"icon": "media/icon/wodexuexi.png",
 	"engines": {
 		"vscode": "^1.68.0"
