@@ -1,7 +1,8 @@
 import {AxiosResponse} from "axios";
 import dayjs = require("dayjs");
+import isoWeek = require("dayjs/plugin/isoWeek");
 import {fstat, readFileSync} from "fs";
-
+dayjs.extend(isoWeek);
 import * as vscode from "vscode";
 import {getList, savedoc} from "../service";
 import {taskList, taskMy} from "../service/typeServe";
@@ -25,7 +26,7 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
     }
     let userid = this.context.globalState.get("userid");
 
-    let starTime: any = dayjs().startOf("week").add(1, "day");
+    let starTime: any = dayjs().startOf("isoWeek");
     let endTime = starTime.add(1, "week").format("YYYY-MM-DD HH:mm:ss");
     starTime = starTime.format("YYYY-MM-DD HH:mm:ss");
     let time = getWorkspaceConfiguration().get<{
