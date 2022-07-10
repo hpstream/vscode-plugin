@@ -47,8 +47,10 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
       data: [],
     };
     resMydata.data.forEach((row: any) => {
-      mydata.category.push(row.label);
-      mydata.data.push(row.costTime);
+      if (row.label) {
+        mydata.category.push(row.label);
+        mydata.data.push(row.costTime);
+      }
     });
 
     let resAllData: any = await taskList({});
@@ -58,8 +60,10 @@ export class ResultSidebarProvider implements vscode.WebviewViewProvider {
     };
 
     resAllData.data.forEach((row: any) => {
-      allData.category.push(row.name);
-      allData.data.push(row.costTime);
+      if (row.costTime != null) {
+        allData.category.push(row.name);
+        allData.data.push(row.costTime);
+      }
     });
 
     this._view?.webview.postMessage({

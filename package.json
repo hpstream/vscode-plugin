@@ -13,7 +13,8 @@
 	],
 	"activationEvents": [
 		"onView:taskWebView",
-		"onView:taskTimes"
+		"onView:taskTimes",
+		"onCommand:studyArea.onlineCount"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -36,6 +37,10 @@
 				"command": "studyArea.addType",
 				"icon": "media/icon/add-task.svg",
 				"title": "增加任务类型"
+			},
+			{
+				"command": "studyArea.onlineCount",
+				"title": "查看在线人数"
 			}
 		],
 		"menus": {

@@ -50,9 +50,9 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
-  const myCommandId = "onlineCount";
+  const myCommandId = "studyArea.onlineCount";
   let timer: any = null;
-  vscode.commands.registerCommand("onlineCount", () => {
+  vscode.commands.registerCommand(myCommandId, () => {
     updateStatusBarItem();
   });
   updateStatusBarItem();

@@ -15,9 +15,7 @@
       let category = message.mydata.category;
       let data = message.mydata.data;
       let mytitle = message.mytitle;
-      dom.style = {
-        height: 100 + 30 * category.length + "px",
-      };
+      dom.style.height = 100 + 30 * category.length + "px";
       var myChart = echarts.init(dom);
       // 绘制图表
       let option = {
@@ -63,9 +61,10 @@
       let category = message.allData.category;
       let data = message.allData.data;
       let dom = document.getElementById("app");
-      dom.style = {
-        height: 100 + 30 * category.length + "px",
-      };
+      dom.style.height = 100 + 30 * category.length + "px";
+      // dom.style = {
+      //   height: 100 + 30 * category.length + "px",
+      // };
       var myChart = echarts.init(dom);
       // 绘制图表
       let option = {
